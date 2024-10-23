@@ -2,9 +2,10 @@ import numpy as np
 
 tau = 2 * np.pi
 
+
 def bluestein_fft(x, custom_w=None):
     N = len(x)
-    L = 2 ** np.log2(np.ceil(2 * N + 1))
+    L = int(2 ** np.log2(np.ceil(2 * N + 1)))
 
     w = np.exp(-1j * tau / N)
 
@@ -13,9 +14,9 @@ def bluestein_fft(x, custom_w=None):
 
     newW = np.exp(np.log(w) * N/L)
 
-    u = np.array([0] * L)
-    v = np.array([0] * L)
-    vStar = np.array([0] * N)
+    u = np.array([0j] * L)
+    v = np.array([0j] * L)
+    vStar = np.array([0j] * N)
 
     for i in range(N):
         u[i] = x[i] * w ** (i * i / 2)
@@ -28,14 +29,15 @@ def bluestein_fft(x, custom_w=None):
     # The following FFT calls are radix-2 so should not have an infinite recursion problem
     fft_u = fft(u, newW)
     fft_v = fft(v, newW)
-    conv_res = ifft(fft_u * fft_v, 1 / newW)
+    conv_res = ifft(np.array(fft_u) * np.array(fft_v), 1 / newW)
 
-    res = np.array([0] * N)
+    res = np.array([0j] * N)
 
     for i in range(N):
         res[i] = conv_res[i] * vStar[i]
 
-    return res
+    return res.tolist()
+
 
 def fft(x, custom_w=None):
     N = len(x)
@@ -65,29 +67,28 @@ def fft(x, custom_w=None):
         for k in range(A):
             x_chunks.append(x[k::A])
 
-        fft_chunks = [fft(i) for i in x_chunks]
+        fft_chunks = [fft(i, w * w) for i in x_chunks]
 
         res = [0] * N
 
         for c in range(A):
-            W_c = np.exp(-1j * c * tau / A)
-
             for k in range(int(N/A)):
                 fft_vals = [chunk[k] for chunk in fft_chunks]
-                fft_vals_mul = [i[1] * W_c ** i[0] for i in enumerate(fft_vals)]
-                res[k] = sum(fft_vals_mul)
-
+                fft_vals = [val * w ** (k * index) for index, val in enumerate(fft_vals)]
+                fft_vals = [val * np.exp(-1j * tau * c * index / A) for index, val in enumerate(fft_vals)]
+                res[k + c * int(N/A)] = sum(fft_vals)
         return res
     else:
         return bluestein_fft(x, w)
 
-def ifft(x, custom_w):
+
+def ifft(x, custom_w=None):
     w = np.exp(1j * tau / len(x))
 
     if custom_w is not None:
         w = custom_w
 
-    return fft(x, w)
+    return [i/len(x) for i in fft(x, w)]
 
 
-print(fft([0, 1]))
+print(ifft(fft([0, 1, 2, 3, 4, 5, 6, 7])))
