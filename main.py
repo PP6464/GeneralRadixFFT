@@ -75,7 +75,7 @@ def fft(x, custom_w=None):
             for k in range(int(N/A)):
                 fft_vals = [chunk[k] for chunk in fft_chunks]
                 fft_vals = [val * w ** (k * index) for index, val in enumerate(fft_vals)]
-                fft_vals = [val * np.exp(-1j * tau * c * index / A) for index, val in enumerate(fft_vals)]
+                fft_vals = [val * w ** (N * c * index / A) for index, val in enumerate(fft_vals)]
                 res[k + c * int(N/A)] = sum(fft_vals)
         return res
     else:
@@ -91,4 +91,4 @@ def ifft(x, custom_w=None):
     return [i/len(x) for i in fft(x, w)]
 
 
-print("\n".join([str(i) for i in fft([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]))
+print("\n".join([str(i) for i in fft([0, 1, 2, 3, 4, 5, 6])]))
