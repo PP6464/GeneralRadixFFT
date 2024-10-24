@@ -1,4 +1,5 @@
 import numpy as np
+import cProfile
 
 tau = 2 * np.pi
 
@@ -12,7 +13,7 @@ def bluestein_fft(x, custom_w=None):
     if custom_w is not None:
         w = custom_w
 
-    newW = np.exp(np.log(w) * N/L)
+    newW = np.exp(np.log(w) * N / L)
 
     u = np.array([0j] * L)
     v = np.array([0j] * L)
@@ -71,11 +72,11 @@ def fft(x, custom_w=None):
         res = [0] * N
 
         for c in range(A):
-            for k in range(int(N/A)):
+            for k in range(int(N / A)):
                 fft_vals = [chunk[k] for chunk in fft_chunks]
                 fft_vals = [val * w ** (k * index) for index, val in enumerate(fft_vals)]
                 fft_vals = [val * w ** (N * c * index / A) for index, val in enumerate(fft_vals)]
-                res[k + c * int(N/A)] = sum(fft_vals)
+                res[k + c * int(N / A)] = sum(fft_vals)
         return res
     else:
         return bluestein_fft(x, w)
@@ -87,7 +88,15 @@ def ifft(x, custom_w=None):
     if custom_w is not None:
         w = custom_w
 
-    return [i/len(x) for i in fft(x, w)]
+    return [i / len(x) for i in fft(x, w)]
 
 
-print("\n".join([str(i) for i in fft([0, 1, 2, 3])]))
+# Show some test output
+# print("\n".join([str(i) for i in fft([0, 1, 2, 3, 4])]))
+
+# Benchmarking
+lst = np.random.random(1024)
+print("My FFT:")
+cProfile.run("fft(lst)")
+print("Numpy FFT")
+cProfile.run("np.fft.fft(lst)")

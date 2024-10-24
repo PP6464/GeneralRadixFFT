@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53502b44-26de-45a3-9361-612f7211a2b5" name="Changes" comment="ensure the ifft works">
+    <list default="true" id="53502b44-26de-45a3-9361-612f7211a2b5" name="Changes" comment="make reducible factor code versatile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -74,12 +74,21 @@
       <option name="project" value="LOCAL" />
       <updated>1729788378069</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="make reducible factor code versatile">
+      <option name="closed" value="true" />
+      <created>1729788510031</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729788510031</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="FFT" />
     <MESSAGE value="ensure the ifft works" />
-    <option name="LAST_COMMIT_MESSAGE" value="ensure the ifft works" />
+    <MESSAGE value="make reducible factor code versatile" />
+    <option name="LAST_COMMIT_MESSAGE" value="make reducible factor code versatile" />
   </component>
 </project>
