@@ -67,7 +67,7 @@ def fft(x, custom_w=None):
         for k in range(A):
             x_chunks.append(x[k::A])
 
-        fft_chunks = [fft(i, w * w) for i in x_chunks]
+        fft_chunks = [fft(i, w ** A) for i in x_chunks]
 
         res = [0] * N
 
@@ -91,4 +91,4 @@ def ifft(x, custom_w=None):
     return [i/len(x) for i in fft(x, w)]
 
 
-print(ifft(fft([0, 1, 2, 3, 4, 5, 6, 7])))
+print(fft([0, 1, 2, 3]))
