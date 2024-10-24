@@ -91,4 +91,4 @@ def ifft(x, custom_w=None):
     return [i/len(x) for i in fft(x, w)]
 
 
-print(fft([0, 1, 2, 3]))
+print("\n".join([str(i) for i in fft([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]))
