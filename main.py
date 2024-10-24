@@ -53,12 +53,11 @@ def fft(x, custom_w=None):
     # Find any factor that we can take out of N (to recursively compute the FFT)
     A = 1
 
-    if N % 2 == 0:
-        A = 2
-    elif N % 3 == 0:
-        A = 3
-    elif N % 5 == 0:
-        A = 5
+    reducible_factors = [2, 3, 5]
+    for factor in reducible_factors:
+        if N % factor == 0:
+            A = factor
+            break
 
     # Recursively do the computation required if you can meaningfully reduce the list
     if A != 1:
@@ -91,4 +90,4 @@ def ifft(x, custom_w=None):
     return [i/len(x) for i in fft(x, w)]
 
 
-print("\n".join([str(i) for i in fft([0, 1, 2, 3, 4, 5, 6])]))
+print("\n".join([str(i) for i in fft([0, 1, 2, 3])]))
